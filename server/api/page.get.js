@@ -7,7 +7,7 @@ let payload = [];
 
 async function getPage() {
   const data = await notion.pages.retrieve({ page_id });
-  console.log(data)
+  console.log('logging data', data)
   return data;
 }
 
