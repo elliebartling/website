@@ -8,9 +8,15 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@nuxtjs/google-fonts": "3.0.0-1",
     "nuxt": "^3.2.2"
   },
   "dependencies": {
-    "@notionhq/client": "^2.2.3"
+    "@notionhq/client": "^2.2.3",
+    "@nuxtjs/tailwindcss": "^6.4.1",
+    "@pinia/nuxt": "^0.4.7",
+    "nuxt-lodash": "^2.4.1",
+    "vue-animate-height": "^1.1.2",
+    "vue3-notion": "^0.1.40"
   }
 }

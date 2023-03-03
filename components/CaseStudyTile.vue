@@ -1,0 +1,75 @@
+<template>
+    <NuxtLink class="link" :class="{selected}" :to="`/projects/${name}?id=${project_id}`">
+        <!-- <div class="mdash"></div> -->
+        <!-- <AnimateHeight :duration="500" :height="`${selected ? '60' : 'auto'}`"> -->
+            <div class="flex flex-col relative px-2">
+                <div class="highlight blurry" :class="{selected}"></div>
+                <div class="highlight" :class="{selected}"></div>
+                <h3 class="text-5xl font-bold z-10 inline-block">{{ project.shortname }}</h3>
+            </div>
+        <!-- </AnimateHeight> -->
+    </NuxtLink>
+</template>
+<style scoped>
+.mdash {
+    @apply w-4 h-0.5;
+    @apply bg-gray-600;
+    transition: all 0.5s ease;
+}
+.link {
+    @apply flex flex-row gap-x-4 items-center;
+    @apply cursor-pointer;
+    @apply text-gray-400;
+    transition: all 0.5s ease;
+}
+.selected.link {
+    @apply text-white;
+    @apply mb-8 mt-4;
+    transition: all 0.5s ease;
+}
+
+.highlight {
+    @apply absolute left-0 top-4 block z-0;
+    @apply h-8 w-2 rounded-sm;
+    @apply bg-gradient-to-r from-orange-400 to-rose-400;
+    @apply opacity-0;
+    transition: all 0.5s ease;
+}
+.blurry {
+    @apply top-6 left-2 h-4;
+    filter: blur(20px);
+}
+.highlight.selected {
+    @apply w-full opacity-100;
+    transition: all 0.5s ease;
+}
+
+.selected .mdash {
+    @apply w-12;
+    @apply bg-gradient-to-r from-rose-400 via-purple-400 to-cyan-500;
+    transition: all 0.5s ease;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+  height: 0px;
+}
+</style>
+<script>
+import AnimateHeight from 'vue-animate-height'
+export default {
+    props: ['name', 'excerpt', 'project_id', 'selected', 'project'],
+    components: { AnimateHeight },
+    computed: {
+        image() {
+            return this.project.cover ? this.project.cover.file.url : ''
+        }
+    }
+}
+</script>
