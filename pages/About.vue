@@ -12,7 +12,6 @@ console.log(page)
 
 </script>
 <style>
-* { @apply text-white; }
 .notion-column, .notion-row { @apply overflow-visible; }
 .notion-page {
     @apply mt-24;
@@ -27,5 +26,10 @@ console.log(page)
     @apply w-full h-full;
     @apply bg-gradient-to-tr from-orange-300 to-violet-500;
     @apply blur-xl inset-5 scale-90;
+}
+
+.notion-callout {
+    @apply aspect-square w-80 block relative;
+    @apply bg-purple-300;
 }
 </style>

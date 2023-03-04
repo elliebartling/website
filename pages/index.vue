@@ -26,7 +26,6 @@
         <CaseStudyList 
           v-if="projects.length > 0"  
           :projects="projects" 
-          @hover="working"
         />
       </div>
     </div>
@@ -35,10 +34,18 @@
   import { NotionRenderer, getPageBlocks, useGetPageBlocks } from "vue3-notion"
   import Background from "../components/Background.vue";
   import CaseStudyList from "../components/CaseStudyList.vue";
-  // import { ref, onMounted } from "vue"
+  import { ref, onMounted } from "vue"
   
   const { data: projects } = await useFetch('/api/projects')
-  const { data: page } = await useGetPageBlocks("8d2402846c9047bb81da03b92ee13846")
+//   const projects = ref(0)
+
+  onMounted(async () => {
+    console.log('gettingdata...')
+    useFetch('/api/projects')
+    projects.value = p
+    console.log('gotdata', p, projects)
+    // const { data: page } = await useGetPageBlocks("8d2402846c9047bb81da03b92ee13846")
+  })
   
   </script>
   <style>

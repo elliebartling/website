@@ -1,0 +1,5 @@
+.notion-page {
+    .notion-title {
+        @apply font-sans text-7xl font-bold;
+    }
+}

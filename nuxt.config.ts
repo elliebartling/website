@@ -12,4 +12,10 @@ export default defineNuxtConfig({
           }
         }]
       ],
+    postcss: {
+      plugins: {
+        'postcss-nested': {}
+      }
+    },
+    css: ['@/assets/notion-styles.css']
 })
