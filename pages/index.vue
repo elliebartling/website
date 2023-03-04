@@ -1,5 +1,4 @@
 <template>
-    <div class="fixed bg-black w-full h-4 top-0 z-10"></div>
     <div class="hello h-full">
       <Background class="z-0" /> 
       <h1 class="title w-1/2">

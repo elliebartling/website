@@ -11,6 +11,7 @@ const { data: page } = await useGetPageBlocks('8d2402846c9047bb81da03b92ee13846'
 
 </script>
 <style scoped>
+.page .notion-page.notion .notion-title { @apply text-red-500; }
 .notion-column, .notion-row { @apply overflow-visible; }
 .notion-page {
     @apply mt-24;
