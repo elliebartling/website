@@ -1,18 +1,21 @@
 <template>
+  <div class="home">
     <div class="hello h-full">
       <Background class="z-0" /> 
-      <h1 class="title w-1/2">
+      <h1 class="title">
         <span>👋</span>
         <span>Hi, I'm Ellen.</span>
-        <span>I'm a senior UX designer</span>
+        <span>I'm a UX designer</span>
         <span>& front-end engineer</span>
         <span class="text-gray-800">— in Seattle, WA ☕ </span>
       </h1>
       <CaseStudyList 
+        class="mt-40"
         v-if="projects.length > 0"  
         :projects="projects" 
         />
     </div>
+  </div>
   </template>
   <script setup>
   import { NotionRenderer, getPageBlocks, useGetPageBlocks } from "vue3-notion"
@@ -31,14 +34,16 @@
   </script>
   <style>
     .title { 
-      @apply flex flex-col z-10;
-      @apply text-7xl font-sans text-white font-bold;
+      @apply flex flex-col z-10 font-sans text-white font-bold;
+      @apply text-4xl w-full;
+      @apply lg:text-7xl lg:w-1/2;
     }
 
     .hello {
       @apply z-40 relative;
       @apply w-screen h-full flex flex-col justify-between items-start;
-      @apply px-40 pt-60 pb-16;
+      @apply px-8 pt-32;
+      @apply lg:px-40 lg:pt-60 pb-16;
     }
   
     .mdash {

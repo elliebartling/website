@@ -15,7 +15,7 @@
     </div>
 </template>
 <style scoped>
-/* .wrapper {
+.wrapper {
     overflow-x: hidden;
     overflow-y: hidden;
     width: 100vw;
@@ -23,7 +23,7 @@
     position: absolute;
     top: 0;
     left: 0;
-} */
+}
 
 .gradient {
     @apply h-full w-screen z-0 absolute top-0 left-0;

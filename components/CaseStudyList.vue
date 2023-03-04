@@ -1,7 +1,7 @@
 <template>
-    <div class="flex flex-row">
-        <div class="mt-16 collection w-full gap-y-8">
-            <div class="blank h-96 mt-32"></div>
+    <div class="flex flex-row w-[90vw] lg:-left-24 relative">
+        <div class="lg:mt-16 collection w-full gap-y-8">
+            <div class="blank lg:h-96"></div>
             <CaseStudyTile 
                 v-for="(project, index) in projects" 
                 :key="project.id"
@@ -9,18 +9,9 @@
                 :name="project.name" 
                 :excerpt="project.excerpt"
                 :project="project"
-                :selected="selected === project.id"
-                @mouseenter="setNewProject(project.id)"
-                class="mb-2 item"
+                class="item"
             />
         </div>
-        <!-- <div class="wrapper w-1/2 h-screen transition-all transition-ease relative">
-            <div class="img w-full relative" :style="`transform: rotate(${rotation}deg);`">
-                <div class="shadow z-0"></div>
-                <img :src="src" class="rounded-3xl z-10 relative" />
-                <div class="backfill z-0"></div>
-            </div>
-        </div> -->
     </div>
 </template>
 <script>
@@ -60,17 +51,24 @@ export default {
 </script>
 <style>
 .collection {
-    @apply w-full gap-32;
-    columns: 2;
+    @apply w-full;
+    columns: 1;
     counter-reset: grid;
+
+    @media screen and (min-width: 768px) {
+        columns: 2;
+    }
+   
+    @apply lg:gap-32;
 }
 
 .item {
     break-inside: avoid;
+    @apply mb-2;
 }
 
 .item + .item { 
-    @apply mt-96;
+    @apply mt-8 lg:mt-96;
 }
 .img {
     @apply transition-all relative;

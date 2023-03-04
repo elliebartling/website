@@ -1,6 +1,6 @@
 <template>
     <NuxtLink class="link" :class="{selected}" :to="`/projects/${slugify(name)}?id=${project_id}`">
-        <h3 class="text-7xl z-20 top-3 -left-4 relative font-bold z-10 inline-block">{{ project.shortname }}</h3>
+        <h3 class="text-3xl lg:text-7xl z-20 top-2 lg:top-3 -left-4 relative font-bold z-10 inline-block">{{ project.shortname }}</h3>
         <div class="img z-30">
             <img :src="project.image" />
         </div>
