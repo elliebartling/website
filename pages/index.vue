@@ -42,8 +42,6 @@
   onMounted(async () => {
     console.log('gettingdata...')
     useFetch('/api/projects')
-    projects.value = p
-    console.log('gotdata', p, projects)
     // const { data: page } = await useGetPageBlocks("8d2402846c9047bb81da03b92ee13846")
   })
   

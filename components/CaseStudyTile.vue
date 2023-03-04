@@ -1,13 +1,11 @@
 <template>
     <NuxtLink class="link" :class="{selected}" :to="`/projects/${name}?id=${project_id}`">
         <!-- <div class="mdash"></div> -->
-        <!-- <AnimateHeight :duration="500" :height="`${selected ? '60' : 'auto'}`"> -->
-            <div class="flex flex-col relative px-2">
-                <div class="highlight blurry" :class="{selected}"></div>
-                <div class="highlight" :class="{selected}"></div>
-                <h3 class="text-5xl font-bold z-10 inline-block">{{ project.shortname }}</h3>
-            </div>
-        <!-- </AnimateHeight> -->
+        <div class="flex flex-col relative px-2">
+            <div class="highlight blurry" :class="{selected}"></div>
+            <div class="highlight" :class="{selected}"></div>
+            <h3 class="text-5xl font-bold z-10 inline-block">{{ project.shortname }}</h3>
+        </div>
     </NuxtLink>
 </template>
 <style scoped>
