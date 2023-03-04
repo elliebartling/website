@@ -1,28 +1,33 @@
 <template>
     <NuxtLink class="link" :class="{selected}" :to="`/projects/${name}?id=${project_id}`">
-        <!-- <div class="mdash"></div> -->
-        <div class="flex flex-col relative px-2">
+        <h3 class="text-7xl z-20 top-5 -left-4 relative font-bold z-10 inline-block">{{ project.shortname }}</h3>
+        <div class="img z-30">
+            <img :src="project.image" />
+        </div>
+        <!-- <div class="flex flex-col relative px-2">
             <div class="highlight blurry" :class="{selected}"></div>
             <div class="highlight" :class="{selected}"></div>
             <h3 class="text-5xl font-bold z-10 inline-block">{{ project.shortname }}</h3>
-        </div>
+        </div> -->
     </NuxtLink>
 </template>
 <style scoped>
+.img {
+    @apply rounded-md overflow-hidden;
+}
 .mdash {
     @apply w-4 h-0.5;
     @apply bg-gray-600;
     transition: all 0.5s ease;
 }
 .link {
-    @apply flex flex-row gap-x-4 items-center;
+    @apply flex flex-col gap-x-4 items-start;
     @apply cursor-pointer;
-    @apply text-gray-400;
+    @apply text-white;
     transition: all 0.5s ease;
 }
+
 .selected.link {
-    @apply text-white;
-    @apply mb-8 mt-4;
     transition: all 0.5s ease;
 }
 

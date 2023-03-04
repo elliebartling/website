@@ -1,20 +1,27 @@
 <template>
     <Background />
     <div class="hello">
-      <h1 class="title">
+      <h1 class="title w-1/2">
         <span>👋</span>
         <span>Hi, I'm Ellen.</span>
         <span>I'm a senior UX designer</span>
         <span>& front-end engineer</span>
         <span class="text-gray-800">— in Seattle, WA ☕ </span>
+        <!-- <div class="text-4xl font-normal mt-8 text-gray-800">
+            Designer, strategist, tinkerer. I make stuff & break stuff.
+        </div> -->
         <!-- <div class="flex flex-row text-base font-mono font-medium mt-8 gap-x-8">
           <span class="">About me</span>
           <span class="">Projects</span>
         </div> -->
       </h1>
+      <CaseStudyList 
+        v-if="projects.length > 0"  
+        :projects="projects" 
+        />
       <div class="flex flex-col text-white text-sm font-mono font-medium mt-8 gap-x-8">
           <div class="line"></div>
-          <span class="">Wanna see something neat? 👀 👇</span>
+          <!-- <span class="">Wanna see something neat? 👀 👇</span> -->
         </div>
     </div>
     <div id="projects" v-if="projects" class="bg-gray-900 px-20 py-40 text-white">
@@ -23,10 +30,7 @@
             Some things I've worked on
             <span class="mdash color w-64 h-[1px]"></span>
         </h2>
-        <CaseStudyList 
-          v-if="projects.length > 0"  
-          :projects="projects" 
-        />
+        
       </div>
     </div>
   </template>

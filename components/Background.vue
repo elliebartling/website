@@ -18,14 +18,14 @@
     overflow-x: hidden;
     overflow-y: hidden;
     width: 100vw;
-    height: 99vh;
+    height: 200%;
     position: absolute;
     top: 0;
     left: 0;
 }
 
 .gradient {
-    @apply h-screen w-screen z-0 absolute top-0 left-0;
+    @apply h-full w-screen z-0 absolute top-0 left-0;
 }
 .gradient-1 {
     @apply bg-gradient-to-tr from-violet-500 via-purple-400 to-cyan-400;

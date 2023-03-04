@@ -1,8 +1,9 @@
 <template>
     <div class="flex flex-row">
-        <div class="flex flex-col w-1/2 gap-y-1">
+        <div class="mt-16 collection w-full gap-y-8">
+            <div class="blank h-96"></div>
             <CaseStudyTile 
-                v-for="project in projects" 
+                v-for="(project, index) in projects" 
                 :key="project.id"
                 :project_id="project.id"
                 :name="project.name" 
@@ -10,17 +11,16 @@
                 :project="project"
                 :selected="selected === project.id"
                 @mouseenter="setNewProject(project.id)"
-                class="mb-2"
+                class="mb-2 item"
             />
         </div>
-        <div class="wrapper w-1/2 h-screen transition-all transition-ease relative">
-            <!-- <span class="project-title">{{ shortname }}</span> -->
+        <!-- <div class="wrapper w-1/2 h-screen transition-all transition-ease relative">
             <div class="img w-full relative" :style="`transform: rotate(${rotation}deg);`">
                 <div class="shadow z-0"></div>
                 <img :src="src" class="rounded-3xl z-10 relative" />
                 <div class="backfill z-0"></div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
@@ -59,6 +59,19 @@ export default {
 }
 </script>
 <style>
+.collection {
+    @apply w-full gap-32;
+    columns: 2;
+    counter-reset: grid;
+}
+
+.item {
+    break-inside: avoid;
+}
+
+.item + .item { 
+    @apply mt-24;
+}
 .img {
     @apply transition-all relative;
 }
