@@ -22,7 +22,9 @@ async function getProjects() {
 }
 
 getProjects().then((data) => {
-    const projects = data.results.map((n) => {
+    const projects = data.results
+      .filter((n) => n.properties['Published'].select.name === 'Published')
+      .map((n) => {
         const name = n.properties['Name'].title.length > 0 ? n.properties['Name'].title[0].plain_text : ''
         const shortname = n.properties['Short Name'].rich_text.length > 0 ? n.properties['Short Name'].rich_text[0].plain_text : ''
         const excerpt = n.properties['Excerpt'].rich_text.length > 0 ? n.properties['Excerpt'].rich_text[0].plain_text : ''

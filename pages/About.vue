@@ -3,15 +3,14 @@
 </template>
 <script setup>
 import { NotionRenderer, getPageBlocks, useGetPageBlocks } from "vue3-notion"
-import { ref, onMounted } from "vue"
 
 const route = useRoute()
+
 // https://ellenbartling.notion.site/About-me-8d2402846c9047bb81da03b92ee13846
 const { data: page } = await useGetPageBlocks('8d2402846c9047bb81da03b92ee13846')
-console.log(page)
 
 </script>
-<style>
+<style scoped>
 .notion-column, .notion-row { @apply overflow-visible; }
 .notion-page {
     @apply mt-24;

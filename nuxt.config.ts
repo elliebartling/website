@@ -17,5 +17,8 @@ export default defineNuxtConfig({
         'postcss-nested': {}
       }
     },
-    css: ['@/assets/notion-styles.css']
+    css: ['@/assets/notion-styles.css'],
+    app: {
+      pageTransition: { name: 'page', mode: 'out-in' }
+    },
 })

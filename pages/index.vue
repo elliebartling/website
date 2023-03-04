@@ -1,37 +1,18 @@
 <template>
-    <Background />
-    <div class="hello">
+    <div class="fixed bg-black w-full h-4 top-0 z-10"></div>
+    <div class="hello h-full">
+      <Background class="z-0" /> 
       <h1 class="title w-1/2">
         <span>👋</span>
         <span>Hi, I'm Ellen.</span>
         <span>I'm a senior UX designer</span>
         <span>& front-end engineer</span>
         <span class="text-gray-800">— in Seattle, WA ☕ </span>
-        <!-- <div class="text-4xl font-normal mt-8 text-gray-800">
-            Designer, strategist, tinkerer. I make stuff & break stuff.
-        </div> -->
-        <!-- <div class="flex flex-row text-base font-mono font-medium mt-8 gap-x-8">
-          <span class="">About me</span>
-          <span class="">Projects</span>
-        </div> -->
       </h1>
       <CaseStudyList 
         v-if="projects.length > 0"  
         :projects="projects" 
         />
-      <div class="flex flex-col text-white text-sm font-mono font-medium mt-8 gap-x-8">
-          <div class="line"></div>
-          <!-- <span class="">Wanna see something neat? 👀 👇</span> -->
-        </div>
-    </div>
-    <div id="projects" v-if="projects" class="bg-gray-900 px-20 py-40 text-white">
-      <div class="container">
-        <h2 class="text-sm font-mono uppercase text-gray-500 mb-8 flex flex-row items-center gap-x-4">
-            Some things I've worked on
-            <span class="mdash color w-64 h-[1px]"></span>
-        </h2>
-        
-      </div>
     </div>
   </template>
   <script setup>
@@ -41,7 +22,6 @@
   import { ref, onMounted } from "vue"
   
   const { data: projects } = await useFetch('/api/projects')
-//   const projects = ref(0)
 
   onMounted(async () => {
     console.log('gettingdata...')
@@ -51,20 +31,14 @@
   
   </script>
   <style>
-    body::-webkit-scrollbar{
-      display: none;
-    }
-    body {
-      @apply bg-gray-900;
-    }
     .title { 
-      @apply flex flex-col;
+      @apply flex flex-col z-10;
       @apply text-7xl font-sans text-white font-bold;
-      mix-blend-mode: overlay;
     }
+
     .hello {
       @apply z-40 relative;
-      @apply w-screen h-[100vh] flex flex-col justify-between items-start;
+      @apply w-screen h-full flex flex-col justify-between items-start;
       @apply px-40 pt-60 pb-16;
     }
   

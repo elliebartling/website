@@ -1,6 +1,6 @@
 <template>
-    <NuxtLink class="link" :class="{selected}" :to="`/projects/${name}?id=${project_id}`">
-        <h3 class="text-7xl z-20 top-5 -left-4 relative font-bold z-10 inline-block">{{ project.shortname }}</h3>
+    <NuxtLink class="link" :class="{selected}" :to="`/projects/${slugify(name)}?id=${project_id}`">
+        <h3 class="text-7xl z-20 top-3 -left-4 relative font-bold z-10 inline-block">{{ project.shortname }}</h3>
         <div class="img z-30">
             <img :src="project.image" />
         </div>
@@ -65,13 +65,24 @@
 }
 </style>
 <script>
-import AnimateHeight from 'vue-animate-height'
 export default {
     props: ['name', 'excerpt', 'project_id', 'selected', 'project'],
-    components: { AnimateHeight },
     computed: {
         image() {
             return this.project.cover ? this.project.cover.file.url : ''
+        }
+    },
+    methods: {
+        slugify(text) {
+            return text
+                .toString()
+                .toLowerCase()
+                .replace(/\s+/g, '-') // Replace spaces with -
+                .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+                .replace(/\-\-+/g, '-') // Replace multiple - with single -
+                .replace(/^-+/, '') // Trim - from start of text
+                .replace(/-+$/, '') // Trim - from end of text
+
         }
     }
 }

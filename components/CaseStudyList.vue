@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-row">
         <div class="mt-16 collection w-full gap-y-8">
-            <div class="blank h-96"></div>
+            <div class="blank h-96 mt-32"></div>
             <CaseStudyTile 
                 v-for="(project, index) in projects" 
                 :key="project.id"
@@ -70,7 +70,7 @@ export default {
 }
 
 .item + .item { 
-    @apply mt-24;
+    @apply mt-96;
 }
 .img {
     @apply transition-all relative;
