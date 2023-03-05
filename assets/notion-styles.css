@@ -6,15 +6,66 @@
 
     .notion-title {
         @apply font-sans text-3xl lg:text-7xl font-bold;
+        @apply relative w-[50vw] ml-24;
         @apply text-white;
+        left: calc(-50vw + 50%);
+        span { @apply relative z-20; }
+        .highlighter {
+            @apply w-full absolute top-0 z-10 -left-8;
+        }
+        /* span { 
+            @apply relative z-20; 
+            background-image: url('./assets/highlighter_01.svg');
+            background-size: 90% 100%;
+            background-size: cover;
+            background-repeat: repeat-y;
+            background-position: 50% 50%;
+            background-clip: padding-box;
+            background-position-x: left;
+        }
+        &::before {
+            @apply block;
+            content: '';
+            background-image: url('./assets/highlighter_01.svg');
+            @apply bg-no-repeat bg-contain;
+            @apply w-full h-full -left-6 -top-2 absolute z-10;
+        } */
     }
 
     .notion-title + .notion-text {
-        @apply text-2xl text-white font-light leading-9;
+        @apply text-3xl text-white font-light leading-9;
+        @apply relative w-[40vw] mb-32 ml-24;
+        left: calc(-50vw + 50%);
+        /* &::after {
+            @apply block;
+            content: '';
+            @apply w-[50%] mt-12 mb-8 h-1 bg-gradient-to-r from-purple-500 to-cyan-400;
+        } */
+    }
+
+    /* Quick facts */
+    .quick-facts {
+        @apply absolute top-64 z-20 w-64;
+        @apply border-r-8 border-violet-500;
+        @apply text-right pr-16;
+        right: calc(-50vw + 50%);
+/* 
         &::after {
             @apply block;
             content: '';
-            @apply w-[70%] mt-12 mb-8 h-1 bg-gradient-to-r from-purple-500 to-cyan-400;
+            @apply bg-no-repeat bg-contain;
+            @apply bg-gradient-to-r from-purple-500 to-cyan-400;
+            @apply w-6 h-full relative;
+        } */
+        summary {
+            @apply text-gray-400 font-mono text-sm uppercase;
+        }
+        .notion-list {
+            list-style-type: none;
+            @apply px-0 mt-4;
+            li { @apply flex flex-col justify-end items-end };
+            .label { @apply font-bold }
+            .value { @apply text-gray-400 }
         }
     }
 
