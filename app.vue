@@ -15,7 +15,7 @@
       <NuxtPage />
     </div>
     <div class="peek bottom">
-      <p class="fixed bottom-2">oh hi there :)</p>
+      <p class="fixed bottom-2">oh hi :)</p>
     </div>
   </div>
 </template>
@@ -58,7 +58,7 @@ html {
 
 .bottom { 
   bottom: -18rem;
-  @apply text-white font-mono text-xs flex flex-row items-end justify-center; 
+  @apply text-gray-800 font-mono text-xs flex flex-row items-end justify-center; 
 }
 
 nav { @apply flex flex-row justify-center items-center; }
