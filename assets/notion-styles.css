@@ -25,14 +25,22 @@
     }
 
     .notion-h1 {
-        @apply relative z-20;
-        &::after {
+        @apply relative z-20 w-full;
+        span { @apply w-auto; }
+        /* &::after {
             @apply block;
             content: '';
             background-image: url('./assets/highlight_01.svg');
             @apply bg-no-repeat bg-contain;
             @apply w-full h-6 -left-6 -top-2 absolute;
-        }
+        } */
+        /* &:after {
+            @apply block;
+            content: '';
+            @apply bg-no-repeat bg-contain;
+            @apply bg-gradient-to-r from-purple-500 to-cyan-400;
+            @apply w-[60%] h-1 flex-shrink top-4 relative;
+        } */
     }
 
 
@@ -43,6 +51,11 @@
         max-width: 100vw !important;
         margin: 0 calc(-50vw + 50%);
         /* left: -80%; */
+    }
+
+    /* .notion-column { @apply px-8; } */
+    .notion-column {
+        .notion-text, .notion-callout, .notion-h2, .notion-h1 { @apply w-[80%] mx-auto; }
     }
 
     .notion-row .notion-column .notion-asset-wrapper {
