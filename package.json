@@ -16,6 +16,7 @@
     "@nuxtjs/tailwindcss": "^6.4.1",
     "@pinia/nuxt": "^0.4.7",
     "install": "^0.13.0",
+    "notion-api-worker": "^0.1.0",
     "npm": "^9.6.0",
     "nuxt-lodash": "^2.4.1",
     "postcss": "^8.4.21",

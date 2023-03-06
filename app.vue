@@ -61,7 +61,9 @@ html {
   @apply text-gray-800 font-mono text-xs flex flex-row items-end justify-center; 
 }
 
-nav { @apply flex flex-row justify-center items-center; }
+nav { 
+  @apply flex flex-row justify-center items-center backdrop-blur-md; 
+}
 
 nav a {
   @apply text-white font-sans font-bold cursor-pointer;

@@ -1,36 +1,55 @@
 <template>
-    <NotionRenderer 
-        class="wrap" 
-        :class="{ 'visible' : visible }"
-        v-if="page" 
-        :blockMap="page" 
-        fullPage 
-    />
+    <div>
+        <div v-if="page && page.properties && page.properties['Featured Image']" class="notion-featured-image">
+            <img :src="page.properties['Featured Image'].files[0].file.url" alt="" />
+        </div>
+        <NotionRenderer 
+            class="wrap" 
+            :class="{ 'visible' : visible }"
+            v-if="blocks" 
+            :blockMap="blocks" 
+            fullPage 
+        />
+        <div class="password" v-if="passwordNeeded">
+            <h1>This case study is protected. Please enter the password to view.</h1>
+            <input v-model="password" type="email" name="email" id="email" class="" placeholder="Enter a password" />
+            <button class="btn" @click="handleButton()">Submit 🚀 </button>
+        </div>
+    </div>
 </template>
 <script setup>
-import { NotionRenderer, getPageBlocks, useGetPageBlocks } from "vue3-notion"
+import { NotionRenderer } from "vue3-notion"
 import { debounce } from "lodash";
-// const { $notion } = useNuxtApp()
+
 const route = useRoute()
-
-const { data: page } = await useGetPageBlocks(route.query.id)
-
 const visible = ref(false)
+const passwordNeeded = ref(false)
+const password = ref('')
+const blocks = ref('')
+const page = ref()
 
-// const { data: page } = await useAsyncData("notion", () => {
-//     return $notion.getPageBlocks(route.query.id)
-// })
+await $fetch('/api/pageBlocks', {
+    query: {
+        id: route.query.id
+    }
+})
+.then(res => {
+    console.log('res', res)
+    const b = res.blocks
+    const p = res.page
+    blocks.value = b
+    page.value = p
+    passwordNeeded.value = false
+    setTimeout(() => applyHighlighters(), 1000)
+    setTimeout(() => findQuickFacts(), 1000)
+    setTimeout(() => hideHiddenBlocks(), 1000)
+    return res
+}, error => {
+    console.log('error', error.message)
+    passwordNeeded.value = true
+})
 
-// const { data: page } = await useFetch('/api/page', {
-//     query: {
-//         id: route.query.id
-//     }
-// })
-console.log('pageother',page)
 
-// const doSomething = function() {
-//     console.log('updated')
-// }
 
 const applyHighlighters = function() {
     // Get the page title element
@@ -91,9 +110,9 @@ const applyHighlighters = function() {
         
         // Add style to the image
         image.style = `
-            top: ${titleFontSizeNumber * i + 10}px;
+            top: ${titleFontSizeNumber * i}px;
             z-index: -1;
-            width: ${lines[i] + 80}px;
+            width: ${lines[i]}px;
             height: ${titleFontSizeNumber}px;
         `
         // Append the image to the title element
@@ -106,6 +125,19 @@ const applyHighlighters = function() {
 // Debounce applyHighlighters
 const applyHighlightersDebounced = debounce(applyHighlighters, 100)
 
+const hideHiddenBlocks = function() {
+    // Get all the hidden blocks
+    const hiddenBlocks = document.querySelectorAll('.notion-toggle')
+    // Loop through each section
+    for (let i = 0; i < hiddenBlocks.length; i++) {
+        const title = hiddenBlocks[i].querySelector('summary')
+        if (title && title.innerText === 'Hide') {
+                console.log('found hidden', hiddenBlocks[i])
+                // Add class 'quick-facts'
+                hiddenBlocks[i].classList.add('hidden')
+        }
+    }
+}
 
 // A function to find the "quick facts" section
 const findQuickFacts = function() {
@@ -146,14 +178,38 @@ const findQuickFacts = function() {
 
 onMounted(() => {
     // Add event listener to window resize & debounce
-    window.addEventListener("resize", applyHighlightersDebounced);
-    // Wait until NotionRenderer is mounted
-    setTimeout(() => applyHighlighters(), 1000)
-    setTimeout(() => findQuickFacts(), 1000)
+    window.addEventListener("resize", applyHighlightersDebounced)
 })
+
+async function handleButton(){
+    await $fetch('/api/pageBlocks', {
+        query: {
+            id: route.query.id,
+            password: password.value
+        }
+    })
+    .then(res => {
+        console.log('res', res)
+        const b = res.blocks
+        const p = res.page
+        blocks.value = b
+        page.value = p
+        passwordNeeded.value = false
+        setTimeout(() => applyHighlighters(), 1000)
+        setTimeout(() => findQuickFacts(), 1000)
+        setTimeout(() => hideHiddenBlocks(), 1000)
+        return res
+    }, error => {
+        console.log('error', error.message)
+        passwordNeeded.value = true
+    })
+}
 
 </script>
 <style scoped>
+.notion-featured-image {
+    @apply h-auto lg:h-[80vh] object-cover overflow-hidden;
+}
 .wrap.visible {
     opacity: 1;
     transition: opacity 1s;
@@ -162,5 +218,38 @@ onMounted(() => {
 .wrap {
     opacity: 0;
     transition: opacity 1s;
+}
+
+.password {
+    @apply w-1/2 mx-auto text-center h-screen flex flex-col justify-center items-center;
+    @apply text-white font-bold;
+}
+
+.password input {
+    @apply block w-full px-3 rounded-md border-0 py-1.5 mt-8;
+    @apply bg-zinc-800  text-gray-200 font-normal shadow-sm ring-1 ring-inset ring-violet-600 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-violet-400 sm:text-sm sm:leading-6;
+}
+
+.password .btn {
+    @apply block px-4 py-2 rounded-md mt-5 text-sm relative;
+    @apply bg-gradient-to-tr from-violet-500 via-purple-500 to-cyan-500;
+    &:hover {
+        /* @apply bg-gradient-to-tr from-purple-500 via-cyan-500 to-rose-400; */
+        animation: gradient 10s ease infinite;
+        @apply transition-all;
+        @apply shadow-lg shadow-violet-500/50;
+    }
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
 </style>
