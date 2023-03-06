@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="page && page.properties && page.properties['Featured Image']" class="notion-featured-image">
+        <div v-if="page && page.properties['Featured Image'].files && page.properties['Featured Image']" class="notion-featured-image">
             <img :src="page.properties['Featured Image'].files[0].file.url" alt="" />
         </div>
         <NotionRenderer 
@@ -19,7 +19,6 @@
 </template>
 <script setup>
 import { NotionRenderer } from "vue3-notion"
-import { debounce } from "lodash";
 
 const route = useRoute()
 const visible = ref(false)
@@ -91,8 +90,12 @@ const applyHighlighters = function() {
 
     // Convert lines to an array in order by offsetTop
     lines = Object.entries(lines).sort((a, b) => a[0] - b[0]).map(line => line[1])
-
-    console.log('lines widths', lines)
+    
+    const windowWidth = window.innerWidth
+    let widthModifier = 0
+    if (windowWidth > 768) {
+        widthModifier = 80
+    }
     
     // For each line of text, append an image
     for (let i = 0; i < titleLines; i++) {
@@ -112,7 +115,7 @@ const applyHighlighters = function() {
         image.style = `
             top: ${titleFontSizeNumber * i}px;
             z-index: -1;
-            width: ${lines[i]}px;
+            width: ${lines[i] + widthModifier}px;
             height: ${titleFontSizeNumber}px;
         `
         // Append the image to the title element
@@ -123,7 +126,7 @@ const applyHighlighters = function() {
 }
 
 // Debounce applyHighlighters
-const applyHighlightersDebounced = debounce(applyHighlighters, 100)
+const applyHighlightersDebounced = useDebounce(applyHighlighters, 100)
 
 const hideHiddenBlocks = function() {
     // Get all the hidden blocks
