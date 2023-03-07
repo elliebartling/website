@@ -181,7 +181,7 @@ export default {
         return {
             blocks: [],
             page: null,
-            password: 'scroll',
+            password: '',
             passwordNeeded: false,
             visible: false,
             project: null,
