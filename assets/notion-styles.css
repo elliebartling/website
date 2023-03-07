@@ -154,7 +154,7 @@
 
     /* Lists */
     .notion-list {
-        line-height: 120%;
+        /* line-height: 120%; */
         @apply mb-1;
     }
 
