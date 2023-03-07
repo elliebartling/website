@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NuxtLoadingIndicator class="z-80" />
+    <NuxtLoadingIndicator class="z-80" color="repeating-linear-gradient(to right,#22d3ee 0%,#8b5cf6 50%,#fb7185 100%)" />
     <!-- <div class="peek top"></div> -->
     <nav class="">
       <div class="left text-white font-bold">
@@ -18,7 +18,7 @@
       </div>
     </nav>
     <div class="page" :class="`page-${useKebabCase(route.name)}`">
-      <NuxtPage />
+      <NuxtPage :projects="projects" />
     </div>
     <div class="peek bottom">
       <div class="fixed bottom-2 flex flex-row justify-between items-center w-full px-2 lg:px-6">
@@ -32,6 +32,19 @@
 <script setup>
 const route = useRoute()
 console.log('route', route, route.name)
+
+let projects = ref([])
+  
+console.log('gettingdata 1...')
+const { data } = await $fetch('/api/projects')
+  .then((res) => {
+    console.log('res', res)
+    projects.value = res
+    return res
+  }, (error) => {
+    console.log('error', error.message)
+  })
+
 </script>
 <style>
 .page {
