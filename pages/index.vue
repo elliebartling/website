@@ -11,7 +11,7 @@
       </h1>
       <CaseStudyList 
         class="mt-40"
-        v-if="projects.length > 0"  
+        v-if="projects && projects.length > 0"  
         :projects="projects" 
         />
     </div>
@@ -22,11 +22,22 @@
   import Background from "../components/Background.vue";
   import CaseStudyList from "../components/CaseStudyList.vue";
   import { ref, onMounted } from "vue"
+
+  let projects = ref([])
   
-  const { data: projects } = await useFetch('/api/projects')
+  console.log('gettingdata 1...')
+  const { data } = await $fetch('/api/projects')
+    .then((res) => {
+      console.log('res', res)
+      projects.value = res
+      return res
+    }, (error) => {
+      console.log('error', error.message)
+    })
 
   onMounted(async () => {
     console.log('gettingdata...')
+    // const { data: projects } = await useFetch('/api/projects')
     // useFetch('/api/projects')
     // const { data: page } = await useGetPageBlocks("8d2402846c9047bb81da03b92ee13846")
   })
