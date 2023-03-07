@@ -1,6 +1,9 @@
 <template>
     <div>
-        <div v-if="page && page.properties['Featured Image'].files && page.properties['Featured Image']" class="notion-featured-image">
+        <div :class="{ 'show': showProgress, 'hide': !showProgress }" class="w-full fixed h-3 z-50">
+            <div ref="loader" class="loader h-1" :style="`width: ${progress}%`"></div>
+        </div>
+        <div v-if="visible && page && page.properties['Featured Image'].files && page.properties['Featured Image']" class="notion-featured-image">
             <img :src="page.properties['Featured Image'].files[0].file.url" alt="" />
         </div>
         <NotionRenderer 
@@ -17,63 +20,15 @@
         </div>
     </div>
 </template>
-<script setup>
+<script>
 import { NotionRenderer } from "vue3-notion"
-
-defineProps(['projects'])
-
-const route = useRoute()
-const visible = ref(false)
-const passwordNeeded = ref(false)
-const password = ref('')
-const blocks = ref('')
-const page = ref()
-
-// Create a computed property finding the project based on the route
-const project = computed(() => {    
-    return projects.value.find(project => project.id === route.params.id)
-})
+import { useRoute } from "vue-router"
 
 const applyFormatting = function() {
     applyHighlighters()
     findQuickFacts()
     hideHiddenBlocks()
     fixAspectRatio()
-}
-
-const getBlocks = async function() {
-    await $fetch('/api/pageBlocks', {
-        query: {
-            id: route.query.id,
-            password: password.value
-        }
-    })
-    .then(res => {
-        blocks.value = res.blocks
-        page.value = res.page
-        passwordNeeded.value = false
-        setTimeout(() => applyFormatting(), 1000)
-    }, error => {
-        console.log('error', error.message)
-        passwordNeeded.value = true
-    })
-}
-
-if (project.passwordProtected) {
-    passwordNeeded.value = true
-} else {
-    getBlocks()
-}
-
-
-
-onMounted(() => {
-    // Add event listener to window resize & debounce
-    window.addEventListener("resize", applyHighlightersDebounced)
-})
-
-async function handleButton(){
-    getBlocks()
 }
 
 const fixAspectRatio = function() {
@@ -162,8 +117,6 @@ const applyHighlighters = function() {
         // Append the image to the title element
         title.appendChild(image)
     }
-
-    visible.value = true
 }
 
 // Debounce applyHighlighters
@@ -219,9 +172,75 @@ const findQuickFacts = function() {
         }
     }
 }
+// const nuxtApp = useNuxtApp()
+// console.log(nuxtApp, nuxtApp.vueApp)
 
-
-
+export default {
+    props: ['projects'],
+    data() {
+        return {
+            blocks: [],
+            page: null,
+            password: 'scroll',
+            passwordNeeded: false,
+            visible: false,
+            project: null,
+            progress: 10,
+            showProgress: false
+        }
+    },
+    methods: {
+        applyFormatting,
+        applyHighlighters,
+        hideHiddenBlocks,
+        findQuickFacts,
+        handleButton() {
+            this.showProgress = true
+            this.$nextTick(() => {
+                this.progress = 10
+                this.getBlocks()
+            })
+        },
+        getBlocks() {
+            const app = this
+            this.progress = 100
+            $fetch('/api/pageBlocks', {
+                query: {
+                    id: this.route.query.id,
+                    password: this.password
+                }
+            })
+            .then(res => {
+                this.blocks = res.blocks
+                this.page = res.page
+                this.passwordNeeded = false
+                setTimeout(() => this.applyFormatting(), 1000)
+                setTimeout(() => this.showProgress = false, 2000)
+                this.visible = true
+            }, error => {
+                console.log(error)
+            })
+        }
+    },
+    setup(props) {
+        const route = useRoute()
+        const project = props.projects.find(p => p.id === route.query.id)
+        return { project, route }
+    },
+    mounted() {
+        // Add event listener to window resize & debounce
+        window.addEventListener("resize", applyHighlightersDebounced)
+        const app = this
+        console.log(app.$loading, app.$nuxt, app.$nuxt.$refs)
+        if (this.project.passwordProtected) {
+            console.log('password needed')
+            this.passwordNeeded = true
+        } else {
+            console.log('no password needed, getting blocks')
+            this.getBlocks()
+        }
+    }
+}
 </script>
 <style scoped>
 .notion-featured-image {
@@ -257,6 +276,15 @@ const findQuickFacts = function() {
         @apply shadow-lg shadow-violet-500/50;
     }
 }
+
+.loader {
+    @apply bg-gradient-to-r from-violet-400 via-purple-500 to-cyan-500;
+    transition: all 2s linear;
+}
+
+.show { @apply opacity-100; }
+
+.hide { @apply opacity-0; }
 
 @keyframes gradient {
 	0% {

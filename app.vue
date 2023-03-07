@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NuxtLoadingIndicator class="z-80" color="repeating-linear-gradient(to right,#22d3ee 0%,#8b5cf6 50%,#fb7185 100%)" />
+    <NuxtLoadingIndicator ref="loader" class="z-80" color="repeating-linear-gradient(to right,#22d3ee 0%,#8b5cf6 50%,#fb7185 100%)" />
     <!-- <div class="peek top"></div> -->
     <nav class="">
       <div class="left text-white font-bold">
@@ -31,20 +31,25 @@
 </template>
 <script setup>
 const route = useRoute()
-console.log('route', route, route.name)
-
+const loader = ref(null)
 let projects = ref([])
   
-console.log('gettingdata 1...')
-const { data } = await $fetch('/api/projects')
+await $fetch('/api/projects')
   .then((res) => {
     console.log('res', res)
     projects.value = res
-    return res
   }, (error) => {
     console.log('error', error.message)
   })
 
+// Start the loader
+const startLoader = () => {
+  loader.start()
+}
+
+const finishLoader = () => {
+  loader.finish()
+}
 </script>
 <style>
 .page {
