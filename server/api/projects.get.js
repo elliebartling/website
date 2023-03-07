@@ -25,6 +25,10 @@ getProjects().then((data) => {
     const projects = data.results
       .filter((n) => n.properties['Published'] && n.properties['Published'].select.name === 'Published')
       .map((n) => {
+        // Prevent password from being sent to client
+        let passwordProtected = n.properties.Password && n.properties.Password.rich_text.length > 0
+        delete n.properties.Password
+
         const name = n.properties['Name'].title.length > 0 ? n.properties['Name'].title[0].plain_text : ''
         const shortname = n.properties['Short Name'].rich_text.length > 0 ? n.properties['Short Name'].rich_text[0].plain_text : ''
         const excerpt = n.properties['Excerpt'].rich_text.length > 0 ? n.properties['Excerpt'].rich_text[0].plain_text : ''
@@ -36,7 +40,8 @@ getProjects().then((data) => {
             name,
             excerpt,
             shortname,
-            full: n
+            full: n,
+            passwordProtected
         }
         return project
     })

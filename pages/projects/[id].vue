@@ -20,6 +20,8 @@
 <script setup>
 import { NotionRenderer } from "vue3-notion"
 
+defineProps(['projects'])
+
 const route = useRoute()
 const visible = ref(false)
 const passwordNeeded = ref(false)
@@ -27,28 +29,64 @@ const password = ref('')
 const blocks = ref('')
 const page = ref()
 
-await $fetch('/api/pageBlocks', {
-    query: {
-        id: route.query.id
-    }
-})
-.then(res => {
-    console.log('res', res)
-    const b = res.blocks
-    const p = res.page
-    blocks.value = b
-    page.value = p
-    passwordNeeded.value = false
-    setTimeout(() => applyHighlighters(), 1000)
-    setTimeout(() => findQuickFacts(), 1000)
-    setTimeout(() => hideHiddenBlocks(), 1000)
-    // setTimeout(() => findAttributions(), 1000)
-    return res
-}, error => {
-    console.log('error', error.message)
-    passwordNeeded.value = true
+// Create a computed property finding the project based on the route
+const project = computed(() => {    
+    return projects.value.find(project => project.id === route.params.id)
 })
 
+const applyFormatting = function() {
+    applyHighlighters()
+    findQuickFacts()
+    hideHiddenBlocks()
+    fixAspectRatio()
+}
+
+const getBlocks = async function() {
+    await $fetch('/api/pageBlocks', {
+        query: {
+            id: route.query.id,
+            password: password.value
+        }
+    })
+    .then(res => {
+        blocks.value = res.blocks
+        page.value = res.page
+        passwordNeeded.value = false
+        setTimeout(() => applyFormatting(), 1000)
+    }, error => {
+        console.log('error', error.message)
+        passwordNeeded.value = true
+    })
+}
+
+if (project.passwordProtected) {
+    passwordNeeded.value = true
+} else {
+    getBlocks()
+}
+
+
+
+onMounted(() => {
+    // Add event listener to window resize & debounce
+    window.addEventListener("resize", applyHighlightersDebounced)
+})
+
+async function handleButton(){
+    getBlocks()
+}
+
+const fixAspectRatio = function() {
+    const images = document.querySelectorAll('.notion-image-inset')
+    images.forEach(image => {
+        const imageWidth = image.offsetWidth
+        const imageHeight = image.offsetHeight
+        const imageAspectRatio = imageWidth / imageHeight
+        // get parent div
+        const imageContainer = image.parentNode
+        imageContainer.style['aspect-ratio'] = imageAspectRatio
+    })
+}
 
 
 const applyHighlighters = function() {
@@ -145,23 +183,6 @@ const hideHiddenBlocks = function() {
     }
 }
 
-// Find attributions in quotes
-const findAttributions = function() {
-    // Get all the quotes
-    const quotes = document.querySelectorAll('.notion-quote')
-    // Loop through each quote
-    for (let i = 0; i < quotes.length; i++) {
-        // Check each span inside the quote for '-'
-        const spans = quotes[i].querySelectorAll('.notion-gray')
-        for (let j = 0; j < spans.length; j++) {
-            if (spans[j].innerText === '-') {
-                // If there is a '-', add class 'attribution'
-                spans[j].classList.add('attribution')
-            }
-        }
-    }
-}
-
 // A function to find the "quick facts" section
 const findQuickFacts = function() {
     console.log('finding quick facts')
@@ -199,35 +220,7 @@ const findQuickFacts = function() {
     }
 }
 
-onMounted(() => {
-    // Add event listener to window resize & debounce
-    window.addEventListener("resize", applyHighlightersDebounced)
-})
 
-async function handleButton(){
-    await $fetch('/api/pageBlocks', {
-        query: {
-            id: route.query.id,
-            password: password.value
-        }
-    })
-    .then(res => {
-        console.log('res', res)
-        const b = res.blocks
-        const p = res.page
-        blocks.value = b
-        page.value = p
-        passwordNeeded.value = false
-        setTimeout(() => applyHighlighters(), 1000)
-        setTimeout(() => findQuickFacts(), 1000)
-        setTimeout(() => hideHiddenBlocks(), 1000)
-        // setTimeout(() => findAttributions(), 1000)
-        return res
-    }, error => {
-        console.log('error', error.message)
-        passwordNeeded.value = true
-    })
-}
 
 </script>
 <style scoped>

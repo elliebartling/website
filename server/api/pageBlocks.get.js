@@ -18,13 +18,6 @@ export default eventHandler(async (event) => {
         // If page is protected, check if password matches
         if (page.protected) {
             if (!password || password !== page.properties.Password.rich_text[0].plain_text) {
-                // Send a 401 response if password is incorrect
-                // return {
-                //     status: 401,
-                //     body: "Incorrect password"
-                // }
-
-
                 throw new Error("Incorrect password")
             } else {
                 // fetch from api with headers
