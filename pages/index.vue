@@ -23,6 +23,8 @@
   import CaseStudyList from "../components/CaseStudyList.vue";
   import { ref, onMounted } from "vue"
 
+  // TODO: Make it work after a refresh of case study page
+
   let projects = ref([])
   
   console.log('gettingdata 1...')
@@ -35,8 +37,16 @@
       console.log('error', error.message)
     })
 
-  onMounted(async () => {
+  beforeMounted(async () => {
     console.log('gettingdata...')
+    const { data } = await $fetch('/api/projects')
+      .then((res) => {
+        console.log('res', res)
+        projects.value = res
+        return res
+      }, (error) => {
+        console.log('error', error.message)
+      })
     // const { data: projects } = await useFetch('/api/projects')
     // useFetch('/api/projects')
     // const { data: page } = await useGetPageBlocks("8d2402846c9047bb81da03b92ee13846")
