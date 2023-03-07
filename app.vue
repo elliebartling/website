@@ -1,5 +1,6 @@
 <template>
   <div>
+    <NuxtLoadingIndicator class="z-80" />
     <!-- <div class="peek top"></div> -->
     <nav class="">
       <div class="left text-white font-bold">
