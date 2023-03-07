@@ -37,7 +37,7 @@
       console.log('error', error.message)
     })
 
-  beforeMounted(async () => {
+  onMounted(async () => {
     console.log('gettingdata...')
     const { data } = await $fetch('/api/projects')
       .then((res) => {
