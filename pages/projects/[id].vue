@@ -157,13 +157,14 @@ const findQuickFacts = function() {
             sections[i].classList.add('quick-facts')
 
             // Get the li items and split the text into groups by the colon
-            const items = sections[i].querySelectorAll('li')
-            items.forEach(item => {
-                const text = item.innerText.split(':')
-                // Remove trailing whitespace at the beginning of second item
-                text[1] = text[1].trim()
-                item.innerHTML = `<span class="label">${text[0]}:</span><span class="value">${text[1]}</span>`
-            })
+            // const items = sections[i].querySelectorAll('li')
+            // items.forEach(item => {
+            //     const text = item.innerText.split(':')
+            //     // Remove trailing whitespace at the beginning of second item
+            //     console.log(item, item.innerText, text)
+            //     text[1] = text[1].trim()
+            //     item.innerHTML = `<span class="label">${text[0]}:</span><span class="value">${text[1]}</span>`
+            // })
             
             // Add open attribute
             sections[i].setAttribute('open', '')

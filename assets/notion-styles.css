@@ -83,9 +83,9 @@
         }
         .notion-list {
             list-style-type: none;
-            @apply px-0 lg:mt-4;
+            @apply px-0 lg:mt-4 text-gray-400;
             li { @apply flex flex-col lg:justify-end lg:items-end };
-            .label { @apply font-bold }
+            .label, b { @apply font-bold text-white block }
             .value { @apply text-gray-400 }
         }
     }
