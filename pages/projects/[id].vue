@@ -42,6 +42,7 @@ await $fetch('/api/pageBlocks', {
     setTimeout(() => applyHighlighters(), 1000)
     setTimeout(() => findQuickFacts(), 1000)
     setTimeout(() => hideHiddenBlocks(), 1000)
+    // setTimeout(() => findAttributions(), 1000)
     return res
 }, error => {
     console.log('error', error.message)
@@ -93,8 +94,10 @@ const applyHighlighters = function() {
     
     const windowWidth = window.innerWidth
     let widthModifier = 0
+    let heightModifier = 6
     if (windowWidth > 768) {
         widthModifier = 80
+        heightModifier = 0
     }
     
     // For each line of text, append an image
@@ -113,7 +116,7 @@ const applyHighlighters = function() {
         
         // Add style to the image
         image.style = `
-            top: ${titleFontSizeNumber * i}px;
+            top: ${titleFontSizeNumber * i + heightModifier}px;
             z-index: -1;
             width: ${lines[i] + widthModifier}px;
             height: ${titleFontSizeNumber}px;
@@ -138,6 +141,23 @@ const hideHiddenBlocks = function() {
                 console.log('found hidden', hiddenBlocks[i])
                 // Add class 'quick-facts'
                 hiddenBlocks[i].classList.add('hidden')
+        }
+    }
+}
+
+// Find attributions in quotes
+const findAttributions = function() {
+    // Get all the quotes
+    const quotes = document.querySelectorAll('.notion-quote')
+    // Loop through each quote
+    for (let i = 0; i < quotes.length; i++) {
+        // Check each span inside the quote for '-'
+        const spans = quotes[i].querySelectorAll('.notion-gray')
+        for (let j = 0; j < spans.length; j++) {
+            if (spans[j].innerText === '-') {
+                // If there is a '-', add class 'attribution'
+                spans[j].classList.add('attribution')
+            }
         }
     }
 }
@@ -201,6 +221,7 @@ async function handleButton(){
         setTimeout(() => applyHighlighters(), 1000)
         setTimeout(() => findQuickFacts(), 1000)
         setTimeout(() => hideHiddenBlocks(), 1000)
+        // setTimeout(() => findAttributions(), 1000)
         return res
     }, error => {
         console.log('error', error.message)

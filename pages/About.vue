@@ -10,9 +10,47 @@ const route = useRoute()
 const { data: page } = await useGetPageBlocks('8d2402846c9047bb81da03b92ee13846')
 
 </script>
-<style scoped>
-.page .notion-page.notion .notion-title { @apply text-red-500; }
-.notion-column, .notion-row { @apply overflow-visible; }
+<style>
+.page-about {
+    .notion-page { 
+        @apply py-24 px-8; 
+
+        .notion-row {
+            @apply max-w-5xl px-8;
+            @media screen and (min-width: 1024px) {
+                margin-left: calc(-32rem + 50%);    
+            }
+        }
+
+        .notion-row .notion-column .notion-asset-wrapper {
+            @apply lg:pl-24 -rotate-2 relative;
+            @apply w-1/2 lg:w-full mb-6;
+
+            img {
+                @apply rounded-2xl z-50;
+                @apply w-full;
+            }
+
+            &::after {
+                content: "";
+                @apply absolute block -left-2 top-2;
+                @apply w-full lg:w-2/3 mx-auto h-full;
+                @apply bg-gradient-to-tr from-violet-500 to-cyan-500;
+                @apply blur-xl inset-x-2 inset-y-5 scale-90;
+            }
+        }
+
+        h1 {
+            line-height: 120%;
+            @apply mb-4 lg:mt-24;
+        }
+
+        h1 [class^="notion-"] {
+            @apply block;
+        }
+    }
+}
+/* .notion-column, .notion-row { @apply overflow-visible; }
 .notion-page {
     @apply mt-24;
 }
@@ -31,5 +69,5 @@ const { data: page } = await useGetPageBlocks('8d2402846c9047bb81da03b92ee13846'
 .notion-callout {
     @apply aspect-square w-80 block relative;
     @apply bg-purple-300;
-}
+} */
 </style>

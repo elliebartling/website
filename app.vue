@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="peek top"></div>
-    <nav class="fixed top-0 w-full flex flex-row justify-between z-50 px-8 py-6 gap-x-6">
+    <!-- <div class="peek top"></div> -->
+    <nav class="">
       <div class="left text-white font-bold">
         <NuxtLink to="/" class="text-white font-sans font-bold cursor-pointer">ellen marie bartling</NuxtLink>
       </div>
@@ -16,17 +16,21 @@
         </NuxtLink>
       </div>
     </nav>
-    <div class="page">
+    <div class="page" :class="`page-${useKebabCase(route.name)}`">
       <NuxtPage />
     </div>
     <div class="peek bottom">
-      <p class="fixed bottom-2">oh hi :)</p>
+      <div class="fixed bottom-2 flex flex-row justify-between items-center w-full px-2 lg:px-6">
+        <NuxtLink to="/" class="">👈 back to home</NuxtLink>
+        <p class="">oh hi :)</p>
+        <NuxtLink to="/about" class="">about me 👋</NuxtLink>
+      </div>
     </div>
   </div>
 </template>
 <script setup>
 const route = useRoute()
-console.log('route', route.name)
+console.log('route', route, route.name)
 </script>
 <style>
 .page {
@@ -45,14 +49,17 @@ console.log('route', route.name)
 }
 
 html {
-  @apply bg-purple-200;
-  /* position: static; */
+  /* @apply bg-zinc-800; */
+  /* @apply bg-gradient-to-r from-purple-500 to-rose-400; */
+  /* background: linear-gradient(to right, rgb(168, 85, 247), rgb(251, 113, 133)); */
+  @apply bg-zinc-800;
 }
 
 .peek {
   @apply h-80 w-screen;
   @apply fixed left-0;
-  @apply bg-gradient-to-b from-transparent to-rose-400;
+  /* @apply bg-gradient-to-b from-purple-500 to-rose-400; */
+  @apply flex flex-row;
   z-index: 1;
 }
 
@@ -63,11 +70,14 @@ html {
 
 .bottom { 
   bottom: -18rem;
-  @apply text-gray-800 font-mono text-xs flex flex-row items-end justify-center; 
+  @apply text-white font-mono text-xs flex flex-row items-end justify-between; 
+  a { @apply block px-2; }
+  a:hover {@apply bg-purple-500;}
 }
 
 nav { 
-  @apply flex flex-row justify-center items-center backdrop-blur-md; 
+  @apply flex flex-row justify-between z-50 w-full absolute top-0;
+  @apply px-6 py-6 gap-x-6;
 }
 
 nav a {
