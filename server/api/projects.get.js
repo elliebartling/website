@@ -14,7 +14,7 @@ export default defineEventHandler(async() => {
       // "sorts": [
       //     {
       //         "property": "Name",
-      //         "direction": "ascending"
+      //         "direction": "ascending" 
       //     }
       // ]
   })
