@@ -1,9 +1,28 @@
+
+
 .notion-page {
     @apply -top-8 lg:-top-24 pb-64 !important;
     @apply text-white z-10;
 
     /* Layout */
     @apply px-4 !important;
+
+    /* Links */
+    a { 
+        @apply text-white opacity-100 relative inline-block z-20; 
+        span { @apply relative z-20;}
+        &:before {
+            @apply block;
+            content: '';
+            @apply bg-gradient-to-r from-purple-600 to-cyan-500;
+            @apply w-full absolute bottom-1 left-0 z-10;
+            height: 5px;
+            @apply transition-all;
+        }
+        &:hover {
+            &:before { @apply h-[70%] transition-all; }
+        }
+    }
 
     .notion-column {
         @apply px-4;
