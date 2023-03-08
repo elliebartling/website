@@ -21,11 +21,11 @@ async function getProjects() {
   return data;
 }
 
-getProjects().then((data) => {
-    const projects = data.results
+getProjects().then(async (data) => {
+    const projects = await data.results
       .filter((n) => n.properties['Published'] && n.properties['Published'].select.name === 'Published')
       .map((n) => {
-        // Prevent password from being sent to client
+        // Prevent pass
         let passwordProtected = n.properties.Password && n.properties.Password.rich_text.length > 0
         delete n.properties.Password
 
@@ -43,6 +43,7 @@ getProjects().then((data) => {
             full: n,
             passwordProtected
         }
+
         return project
     })
   payload = projects;
